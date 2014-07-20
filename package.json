@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/KiaFathi/nodefyBot/issues"
   },
-  "homepage": "https://github.com/KiaFathi/nodefyBot"
+  "homepage": "https://github.com/KiaFathi/nodefyBot",
+  "dependencies": {
+    "express": "^4.6.1"
+  }
 }
