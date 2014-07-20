@@ -83,15 +83,16 @@ Congratulations, you have spun up a basic express server!
 
 Go to the <a href='https://apps.twitter.com/'>Twitter App Center</a> and create a new app.
 
-* Give your app a name, this is what @mentions will go to
-* Give your app a basic description, whatever you want
-* Give your app a website, I just put down <a href='https://kiafathi.com'>my personal blog</a>
-* Don't worry about callback for now, not necessary
-* Sign the agreement
+* Give your app a name, this is what @mentions will go to.
+* Give your app a basic description, whatever you want.
+* Give your app a website, I just put down <a href='https://kiafathi.azurewebsites.net'>my personal blog.</a>
+* Don't worry about callback for now, not necessary.
+* Sign the agreement.
 
 Once you have created your twitter app, go to the permissions tab and enable read/write permisions.
 <img src='./assets/permissions.png'>
 
 After enabling the correct permissions, go the the API keys page and keep track of your API keys.
-####SPECIAL NOTE: Do not share your api keys online or git commit them. You don't want someone
-taking control of your application.
+
+####SPECIAL NOTE: Do not share your api keys online or git commit them. You don't want someone taking control of your application.
+
