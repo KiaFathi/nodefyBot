@@ -7,15 +7,15 @@ A node server that responds to tweets!
 ###Guide
 
 ##What You Need.
-*Node
-*Express
-*Twitter API Keys
-*Wit API Key
+* Node
+* Express
+* Twitter API Keys
+* Wit API Key
 
 ##Tutorial
 ###Step 1
 
-*Basic Setup
+* Basic Setup
 
 Make a directory called nodefyBot.
 
