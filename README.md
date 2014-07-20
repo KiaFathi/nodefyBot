@@ -92,7 +92,31 @@ Go to the <a href='https://apps.twitter.com/'>Twitter App Center</a> and create 
 Once you have created your twitter app, go to the permissions tab and enable read/write permisions.
 <img src='./assets/permissions.png'>
 
-After enabling the correct permissions, go the the API keys page and keep track of your API keys.
+After enabling the correct permissions, go the the API keys tab and keep track of your API keys. You will need them soon.
 
 ####SPECIAL NOTE: Do not share your api keys online or git commit them. You don't want someone taking control of your application.
 
+Let's set up our twitter
+
+In your terminal:
+```js
+npm install --save twitter
+```
+
+Once npm is done installing, go to your basic-server.js
+
+```js
+//Require your the twitter dependencies
+var twitter = require('twitter');
+
+//Now lets set up a twitter account from dev.twitter.com
+//Find these in your applications API Keys tab
+var twit = new twitter({
+  consumer_key: 'Your API Key',
+  consumer_secret: 'Your API Secret',
+  access_token_key: 'Your Access Token',
+  access_token_secret: 'Your Access Token Secret'
+})
+```
+
+For the next step to work, your application will need to have some mentions directed at it. Go onto a twitter account and tweet some things @'Your applications name'
