@@ -135,4 +135,4 @@ var getMentions = function(){
 init();
 setInterval(function(){
   init();
-}, 121000);
+}, 85000);
