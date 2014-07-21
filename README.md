@@ -154,13 +154,13 @@ username of whoever sent the mention, the text of that mention, and the id strin
 The id string is an identifier twitter uses to monitor each tweet, we will use this to make sure
 our server doesn't respond multiple times to each tweet.
 
-We will store each tweet's username and message as a single object, in an array called latestTweets.
+We will store each tweet's username and message as a single object, in an array called latestMentions.
 Each id string will be stored as a key in an object called idStrings, so so we can quickly look up as
 to whether those id strings have been handled or not.
 
 ```js
 //basic-server.js
-var latestTweets = [];
+var latestMentions = [];
 var idStrings = {};
 ```
 
@@ -177,11 +177,11 @@ twit.get('/statuses/mentions_timeline.json', {count: 10}, function(data){
       var tweetObj = {};
       tweetObj.user =  currentTweet.user.screen_name;
       tweetObj.text = currentTweet.text;
-      latestTweets.push(tweetObj);
+      latestMentions.push(tweetObj);
     }
   }
   console.log(idStrings);
-  console.log(latestTweets);
+  console.log(latestMentions);
 });
 ```
 
@@ -210,7 +210,7 @@ var twit = new twitter({
 });
 
 //twitter data
-var latestTweets = [];
+var latestMentions = [];
 var idStrings = {};
 
 
@@ -230,18 +230,18 @@ var getMentions = function(){
         //This if statement determines whether we have already handled this specific tweet
         if(!idStrings[currentTweet.id_str]){
          idStrings[currentTweet.id_str] = true;
-          //the object added to latestTweets array
+          //the object added to latestMentions array
           var tweetObj = {};
           tweetObj.user =  currentTweet.user.screen_name;
           tweetObj.text = currentTweet.text;
-          latestTweets.push(tweetObj);
+          latestMentions.push(tweetObj);
         }
       }      
     } else{
       console.log(data);
     }
     console.log(idStrings);
-    console.log(latestTweets);
+    console.log(latestMentions);
   });
 };
 
@@ -250,3 +250,35 @@ getMentions();
 ```
 
 ###Step 4: Responding to mentions!
+
+Now that we are storing our latest Mentions as an array we can iterate through that array and respond
+to each mention independently. The twitter module we are using has an update status method that we will use to do this.
+Let's write a function to take advantage of it:
+
+```js
+//This function takes all of the mentions stored in our latestMentions array and responds to them
+//with a simple message. We want to invoke it at the end of our getMentions function, so it is called
+//when we have all our new mentions. 
+var replyToMentions = function(){
+  for(var i = 0; i < latestMentions.length; i++){
+    var currentMention = latestMentions[i];
+    //responseTweet is the string we will send to twitter to tweet for us
+    var responseTweet = 'Hello @';
+    responseTweet += currentMention.user;
+    responseTweet += '\nI hope you are having a wonderful day! \n-Your Favorite Node Server';
+
+    //twit will now post this responseTweet to twitter. This function takes a string and a callback
+    twit.updateStatus(responseTweet, function(){
+      console.log(responseTweet);
+    });
+  }
+};
+```
+
+If this works as intended, once you have gotten all your tweets, this function will then go through each of
+those mentions and respond to them by username with: 
+```
+Hello @'username' 
+I hope you are having a wonderful day!
+-Your Favorite Node Server
+```
