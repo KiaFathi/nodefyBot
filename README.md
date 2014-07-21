@@ -124,6 +124,8 @@ For the next step to work, your application will need to have some mentions dire
 ####For more information about the requests node-twitter can make see <a href='https://www.npmjs.org/package/twitter'>the node twitter docs</a>
 
 ```js
+//basic-server.js
+
 //Lets see if we can get our mentions from our newly established twitter connection
 //This get method is a property of the node twitter package
 //We are establishing the url to get data from, and how many mentions (at most 10) we want
@@ -147,3 +149,31 @@ our server doesn't respond multiple times to each tweet.
 We will store each tweet's username and message as a single object, in an array called latestTweets.
 Each id string will be stored as a key in an object called idStrings, so so we can quickly look up as
 to whether those id strings have been handled or not.
+
+```js
+//basic-server.js
+var latestTweets = [];
+var idStrings = {};
+```
+
+Let's change the way our get request handles our data.
+
+```js
+//basic-server.js
+twit.get('/statuses/mentions_timeline.json', {count: 10}, function(data){
+  for(var i = 0; i < data.length; i++){
+    var currentTweet = data[i];
+    //This if statement determines whether we have already handled this specific tweet
+    if(!idStrings[currentTweet.id_str]){
+     idStrings[currentTweet.id_str] = true;
+      var tweetObj = {};
+      tweetObj.user =  currentTweet.user.screen_name;
+      tweetObj.text = currentTweet.text;
+      latestTweets.push(tweetObj);
+    }
+  }
+  console.log(idStrings);
+  console.log(latestTweets);
+});
+```
+
