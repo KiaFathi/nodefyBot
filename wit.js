@@ -11,7 +11,7 @@ var wit = {
     var options = {
       url: url,
       headers: {
-        'Authorization': keys.witAuth
+        'Authorization': process.env.witAuth || keys.witAuth
       }
     };
 
