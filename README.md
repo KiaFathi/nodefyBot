@@ -297,4 +297,5 @@ _Special note: the current app will respond every time you start it up, consider
 
 ###Step 5: A smarter response message.
 
-COMING SOON!
+Basic Implementation: DONE,
+Write-Up: COMING SOON!
