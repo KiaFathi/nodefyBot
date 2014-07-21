@@ -2,7 +2,7 @@
 nodefyBot
 =========
 
-A node server that responds to tweets!
+A node server that responds to tweets! To see how it works, tweet @nodefyBot and see it respond (within 1 minute)!
 
 ##Tutorial
 The following is a tutorial for one of my github repositories, <a href='https://github.com/KiaFathi/nodefyBot'>nodefyBot</a>.
@@ -92,7 +92,7 @@ Go to the <a href='https://apps.twitter.com/'>Twitter App Center</a> and create 
 * Sign the agreement.
 
 Once you have created your twitter app, go to the permissions tab and enable read/write permisions.
-<img src='./assets/permissions.png'>
+
 
 After enabling the correct permissions, go the the API keys tab and keep track of your API keys. You will need them soon.
 
@@ -136,7 +136,7 @@ twit.get('/statuses/mentions_timeline.json', { count: 10}, function(data){
  console.log(data);
 });
 ```
-#####Special Note: The Twitter API will only let you request data 15 times per 15 minutes, so be careful about trying to request data too often. In the next step of our app, we will limit our get requets toonce every minute.
+#####Special Note: The Twitter API will only let you request data 15 times per 15 minutes, so be careful about trying to request data too often. In the next step of our app, we will limit our get requets to once every minute.
 
 Run nodemon basic-server.js to see what our data looks like!
 
@@ -171,7 +171,7 @@ twit.get('/statuses/mentions_timeline.json', {count: 10}, function(data){
 });
 ```
 
-Additionally, I refactored my twitter get request into a function like so I could better control when and where the request is called. 
+Additionally, I refactored my twitter get request into a function to better control when and where the request is called. 
 
 To wrap this step up, this is what our basic server.js file looks like at this point:
 
@@ -271,12 +271,12 @@ var getMentions = function(){
           tweetObj.user = currentTweet.user.screen_name;
           tweetObj.text = currentTweet.text;
           latestMentions.push(tweetObj);
-
-          //response to new mentions
-          replyToMentions();
         }
-      }      
-    } else{
+      }
+      //response to new mentions
+      replyToMentions();
+    } 
+    else{
       console.log(data);
     }
   });
@@ -290,7 +290,9 @@ I hope you are having a wonderful day!
 -Your Favorite Node Server
 ```
 
-This is awesome, we now have a server that responds to tweets! But, it always responds with the same message, that's boring. In the next step, I'll walk you through how to use the Wit API to have our robot interpret messages and respond appropriately:
+This is awesome, we now have a server that responds to tweets! But, it always responds with the same message, that's boring. In the next step, I'll walk you through how to use the Wit API to have our robot interpret messages and respond appropriately.
+
+_Special note: the current app will respond every time you start it up, consider using a file-system or database as a permanent way to keep track of your id_strings._
 
 ###Step 5: A smarter response message.
 
