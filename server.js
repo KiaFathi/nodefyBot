@@ -9,7 +9,7 @@ var wit = require('./wit.js');
 
 //I'm storing sensitive data in a git ignored file called keys. On a server, you can store
 //this data in your process.env
-var keys = require('./keys.js');
+// var keys = require('./keys.js');
 
 //twitter dependencies
 var twitter = require('twitter');
