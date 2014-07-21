@@ -60,7 +60,7 @@ var replyToMentions = function(){
       if(witResponse.intent === 'Greeting'){
         console.log('A greeting was found!');
         responseMsg += '\nHello!!!';
-        responseMsg += '\nI hope you are having a wonderful day! \n-Your Favorite Node Server';
+        responseMsg += '\n-Your Favorite Node Server';
         twit.updateStatus(responseMsg, function(){
           console.log('a response tweet: ');
           console.log(responseMsg);
@@ -69,7 +69,7 @@ var replyToMentions = function(){
       else if(witResponse.intent === 'Farewell'){
         console.log('A farewell was found!');
         responseMsg += '\nGoodBYE!!';
-        responseMsg += '\nSee you next time! \n-Your Favorite Node Server';
+        responseMsg += '\n-Your Favorite Node Server';
         twit.updateStatus(responseMsg, function(){
           console.log('a response tweet: ');
           console.log(responseMsg);
@@ -78,7 +78,7 @@ var replyToMentions = function(){
       else if(witResponse.intent === 'Joke'){
         console.log('A joke was requested!');
         responseMsg += '\nJoke: What do you get when you cross a joke and a rhetorical question?';
-        responseMsg += '\nSee you next time! \n-Your Favorite Node Server';
+        responseMsg += '\n-Your Favorite Node Server';
         twit.updateStatus(responseMsg, function(){
           console.log('a response tweet: ');
           console.log(responseMsg);
@@ -87,7 +87,7 @@ var replyToMentions = function(){
       else if(witResponse.inten === 'Rude'){
         console.log('Something rude was said!');
         responseMsg += '\nThat was rude! I\'m a PG robot';
-        responseMsg += '\nSee you next time! \n-Your Favorite Node Server';
+        responseMsg += '\n-Your Favorite Node Server';
         twit.updateStatus(responseMsg, function(){
           console.log('a response tweet: ');
           console.log(responseMsg);
