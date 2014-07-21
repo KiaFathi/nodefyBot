@@ -1,9 +1,17 @@
+<img src='http://img2.wikia.nocookie.net/__cb20110722223747/megaman/images/c/ce/Birdbot.jpg'>
 nodefyBot
 =========
 
 A node server that responds to tweets!
 
 ##Tutorial
+The following is a tutorial for one of my github repositories, <a href='https://github.com/KiaFathi/nodefyBot'>nodefyBot</a>.
+
+This repository is constantly updating, and this blog post will continue to be up to date with those changes.
+
+If you would like to contribute or make suggestions, feel free to leave them in the comments here or as issue notices/pull requests on the github repository, <a href='https://github.com/KiaFathi/nodefyBot'>nodefyBot</a>. 
+
+I'd like to this make an open-source exploration, so any feedback is greatly appreciated!
 
 ###What You Need.
 * Node
@@ -25,7 +33,7 @@ If you don't already have node installed, install it from <a href='http://nodejs
 NPM is a package manager that comes with Node, and is super useful for getting all your server 
 side dependencies.
 
-We need express for this tutorial, so in your terminal enter the following command.
+We need express for this tutorial, so in your terminal enter the following command:
 
 ```js
 npm init
