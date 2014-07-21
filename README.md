@@ -240,3 +240,5 @@ var getMentions = function(){
 getMentions();
 
 ```
+
+###Step 4: Responding to mentions!
