@@ -20,7 +20,7 @@ mkdir nodefyBot
 cd nodefyBot
 ```
 
-If you don't already have node installed, install it from their website or brew install node.
+If you don't already have node installed, install it from <a href='http://nodejs.org/'>their website</a> or brew install node.
 
 NPM is a package manager that comes with Node, and is super useful for getting all your server 
 side dependencies.
@@ -121,6 +121,8 @@ var twit = new twitter({
 
 For the next step to work, your application will need to have some mentions directed at it. Go onto a twitter account and tweet some things @'Your applications name', in my case @nodefyBot. With these mentions, we can continue to the next step.
 
+####For more information about the requests node-twitter can make see <a href='https://www.npmjs.org/package/twitter'>the node twitter docs</a>
+
 ```js
 //Lets see if we can get our mentions from our newly established twitter connection
 //This get method is a property of the node twitter package
@@ -141,3 +143,7 @@ objects have a ton of information, for now let's just worry about the basics. We
 username of whoever sent the mention, the text of that mention, and the id string of the mention.
 The id string is an identifier twitter uses to monitor each tweet, we will use this to make sure
 our server doesn't respond multiple times to each tweet.
+
+We will store each tweet's username and message as a single object, in an array called latestTweets.
+Each id string will be stored as a key in an object called idStrings, so so we can quickly look up as
+to whether those id strings have been handled or not.
