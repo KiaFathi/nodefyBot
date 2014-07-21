@@ -28,22 +28,27 @@ var server = app.listen(port, function(){
   console.log('Basic server is listening on port ' + port);
 });
 
-//Lets see if we can get our mentions from our newly established twitter connection
-//This get method is a property of the node twitter package
-//We are establishing the url to get from, and how many mentions (at most 10) we want
-//Right now whatever you get will back will be console logged!
-twit.get('/statuses/mentions_timeline.json', {count: 10}, function(data){
-  for(var i = 0; i < data.length; i++){
-    var currentTweet = data[i];
-    //This if statement determines whether we have already handled this specific tweet
-    if(!idStrings[currentTweet.id_str]){
-     idStrings[currentTweet.id_str] = true;
-      var tweetObj = {};
-      tweetObj.user =  currentTweet.user.screen_name;
-      tweetObj.text = currentTweet.text;
-      latestTweets.push(tweetObj);
+var getMentions = function(){
+  twit.get('/statuses/mentions_timeline.json', {count: 10}, function(data){
+    if(data.length){
+      for(var i = 0; i < data.length; i++){
+        var currentTweet = data[i];
+        //This if statement determines whether we have already handled this specific tweet
+        if(!idStrings[currentTweet.id_str]){
+         idStrings[currentTweet.id_str] = true;
+          //the object added to latestTweets array
+          var tweetObj = {};
+          tweetObj.user =  currentTweet.user.screen_name;
+          tweetObj.text = currentTweet.text;
+          latestTweets.push(tweetObj);
+        }
+      }      
+    } else{
+      console.log(data);
     }
-  }
-  console.log(idStrings);
-  console.log(latestTweets);
-});
+    console.log(idStrings);
+    console.log(latestTweets);
+  });
+};
+
+getMentions();
