@@ -92,6 +92,10 @@ var replyToMentions = function(){
           console.log('a response tweet: ');
           console.log(responseMsg);
         });
+      } else{
+        console.log('Unhandled intent!!!');
+        console.log('Unhandled intent!!!');
+        console.log('Unhandled intent!!!');
       }
     });
   }
