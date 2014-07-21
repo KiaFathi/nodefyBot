@@ -30,8 +30,7 @@ cd nodefyBot
 
 If you don't already have node installed, install it from <a href='http://nodejs.org/'>their website</a> or brew install node.
 
-NPM is a package manager that comes with Node, and is super useful for getting all your server 
-side dependencies.
+NPM is a package manager that comes with Node, and is super useful for getting all your server side dependencies.
 
 We need express for this tutorial, so in your terminal enter the following command:
 
@@ -40,8 +39,7 @@ npm init
 npm install --save express
 ```
 
-I also recommend you use nodemon, which will run your node server and automatically update it when 
-it changes. This makes debugging a lot faster and easier.
+I also recommend you use nodemon, which will run your node server and automatically update it when  it changes. This makes debugging a lot faster and easier.
 
 ```js
 npm install -g nodemon
@@ -49,9 +47,7 @@ npm install -g nodemon
 
 We install nodemon globally so we can use it from any directory later.
 
-These commands will initialize our directory with a package.json and install all the necessary 
-express files. Express makes writing servers with node very easy and takes out a lot of the minutia 
-of writing bare node. We will use express for this tutorial.
+These commands will initialize our directory with a package.json and install all the necessary  express files. Express makes writing servers with node very easy and takes out a lot of the minutia of writing bare node. We will use express for this tutorial.
 
 ###Step 2: Establish a basic node server
 
@@ -79,11 +75,9 @@ var server = app.listen(port, function(){
   console.log('Basic-server is listening on port ' + port);
 });
 ```
-From the root of your nodefyBot directory run 'nodemon basic-server.js' in your terminal.
-You should see a console log of 'listening on PORT 8300' in your terminal.
+From the root of your nodefyBot directory run 'nodemon basic-server.js' in your terminal. You should see a console log of 'listening on PORT 8300' in your terminal.
 
-Additionally, with your nodemon still running in your terminal, go to 'localhost:8300' in your 
-browser and you should see the response message from your server.
+Additionally, with your nodemon still running in your terminal, go to 'localhost:8300' in your browser and you should see the response message from your server.
 
 Congratulations, you have spun up a basic express server!
 
@@ -142,21 +136,13 @@ twit.get('/statuses/mentions_timeline.json', { count: 10}, function(data){
  console.log(data);
 });
 ```
-####Special Note: The Twitter API will only let you request data 15 times per 15 minutes, so be 
-careful about trying to request data too often. In the next step of our app, we will limit our get requets to
-once every minute.
+#####Special Note: The Twitter API will only let you request data 15 times per 15 minutes, so be careful about trying to request data too often. In the next step of our app, we will limit our get requets toonce every minute.
 
 Run nodemon basic-server.js to see what our data looks like!
 
-Our mentions come back as an array, with each individual mention as an object in that array. These 
-objects have a ton of information, for now let's just worry about the basics. We want to get the
-username of whoever sent the mention, the text of that mention, and the id string of the mention.
-The id string is an identifier twitter uses to monitor each tweet, we will use this to make sure
-our server doesn't respond multiple times to each tweet.
+Our mentions come back as an array, with each individual mention as an object in that array. These  objects have a ton of information, for now let's just worry about the basics. We want to get the username of whoever sent the mention, the text of that mention, and the id string of the mention. The id string is an identifier twitter uses to monitor each tweet, we will use this to make sure our server doesn't respond multiple times to each tweet.
 
-We will store each tweet's username and message as a single object, in an array called latestMentions.
-Each id string will be stored as a key in an object called idStrings, so so we can quickly look up as
-to whether those id strings have been handled or not.
+We will store each tweet's username and message as a single object, in an array called latestMentions. Each id string will be stored as a key in an object called idStrings, so so we can quickly look up as to whether those id strings have been handled or not.
 
 ```js
 //basic-server.js
@@ -185,10 +171,9 @@ twit.get('/statuses/mentions_timeline.json', {count: 10}, function(data){
 });
 ```
 
-Additionally, I refactored my twitter get request into a function like so I could better control
-when and where the request is called. 
+Additionally, I refactored my twitter get request into a function like so I could better control when and where the request is called. 
 
-To wrap this step up, this is what our basic-server.js file looks like at this point:
+To wrap this step up, this is what our basic server.js file looks like at this point:
 
 ```js
 
@@ -251,9 +236,7 @@ getMentions();
 
 ###Step 4: Responding to mentions!
 
-Now that we are storing our latest Mentions as an array we can iterate through that array and respond
-to each mention independently. The twitter module we are using has an update status method that we will use to do this.
-Let's write a function to take advantage of it:
+Now that we are storing our latest Mentions as an array we can iterate through that array and respond to each mention independently. The twitter module we are using has an update status method that we will use to do this. Let's write a function to take advantage of it:
 
 ```js
 //This function takes all of the mentions stored in our latestMentions array and responds to them
@@ -275,10 +258,40 @@ var replyToMentions = function(){
 };
 ```
 
-If this works as intended, once you have gotten all your tweets, this function will then go through each of
-those mentions and respond to them by username with: 
+Where specifically do we invoke this function? Inside our getMentions function like so:
+```js
+var getMentions = function(){
+  twit.get('/statuses/mentions_timeline.json', {count: 10}, function(data){
+    if(data.length){
+      for(var i = 0; i < data.length; i++){
+        var currentTweet = data[i];
+        if(!idStrings[currentTweet.id_str]){
+         idStrings[currentTweet.id_str] = true;
+          var tweetObj = {};
+          tweetObj.user = currentTweet.user.screen_name;
+          tweetObj.text = currentTweet.text;
+          latestMentions.push(tweetObj);
+
+          //response to new mentions
+          replyToMentions();
+        }
+      }      
+    } else{
+      console.log(data);
+    }
+  });
+};
+```
+
+If this works as intended, once you have gotten all your tweets, this function will then go through each of those mentions and respond to them by username with: 
 ```
 Hello @'username' 
 I hope you are having a wonderful day!
 -Your Favorite Node Server
 ```
+
+This is awesome, we now have a server that responds to tweets! But, it always responds with the same message, that's boring. In the next step, I'll walk you through how to use the Wit API to have our robot interpret messages and respond appropriately:
+
+###Step 5: A smarter response message.
+
+COMING SOON!
