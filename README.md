@@ -119,4 +119,25 @@ var twit = new twitter({
 })
 ```
 
-For the next step to work, your application will need to have some mentions directed at it. Go onto a twitter account and tweet some things @'Your applications name'
+For the next step to work, your application will need to have some mentions directed at it. Go onto a twitter account and tweet some things @'Your applications name', in my case @nodefyBot. With these mentions, we can continue to the next step.
+
+```js
+//Lets see if we can get our mentions from our newly established twitter connection
+//This get method is a property of the node twitter package
+//We are establishing the url to get data from, and how many mentions (at most 10) we want
+//Right now whatever you get back will be console logged.
+twit.get('/statuses/mentions_timeline.json', { count: 10}, function(data){
+ console.log(data);
+});
+```
+####Special Note: The Twitter API will only let you request data 15 times per 15 minutes, so be 
+careful about trying to request data too often. In the next step of our app, we will limit our get requets to
+once every minute.
+
+Run nodemon basic-server.js to see what our data looks like!
+
+Our mentions come back as an array, with each individual mention as an object in that array. These 
+objects have a ton of information, for now let's just worry about the basics. We want to get the
+username of whoever sent the mention, the text of that mention, and the id string of the mention.
+The id string is an identifier twitter uses to monitor each tweet, we will use this to make sure
+our server doesn't respond multiple times to each tweet.
