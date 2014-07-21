@@ -1,7 +1,7 @@
 //server related dependencies
 var express = require('express');
 var app = express();
-var port = process.env.port || 8300;
+var port = process.env.PORT || 8300;
 var Firebase = require('firebase');
 var ref = new Firebase('https://nodefybot.firebaseio.com/');
 var wit = require('./wit.js');
