@@ -1,2 +1,2 @@
 [config]
-command = node server.js
+command = bash deploy.sh
