@@ -75,6 +75,15 @@ var replyToMentions = function(){
           console.log(responseMsg);
         });
       }
+      else if(witResponse.intent === 'Joke'){
+        console.log('A joke was requested!');
+        responseMsg += '\nJoke: What do you get when you cross a joke and a rhetorical question?';
+        responseMsg += '\nSee you next time! \n-Your Favorite Node Server';
+        twit.updateStatus(responseMsg, function(){
+          console.log('a response tweet: ');
+          console.log(responseMsg);
+        });
+      }
     });
   }
     

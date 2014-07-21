@@ -2,7 +2,8 @@
 nodefyBot
 =========
 
-A node server that responds to tweets! To see how it works, tweet @nodefyBot and see it respond (within 1 minute)!
+A node server that responds to tweets! To see how it works, tweet @nodefyBot and see it respond (within 1 minute)! Currently it can respond to
+greetings, farewells, and joke requests.
 
 ##Tutorial
 The following is a tutorial for one of my github repositories, <a href='https://github.com/KiaFathi/nodefyBot'>nodefyBot</a>.
