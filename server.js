@@ -84,7 +84,7 @@ var replyToMentions = function(){
           console.log(responseMsg);
         });
       }
-      else if(witResponse.inten === 'Rude'){
+      else if(witResponse.intent === 'Rude'){
         console.log('Something rude was said!');
         responseMsg += '\nThat was rude! I\'m a PG robot';
         responseMsg += '\n-Your Favorite Node Server';
