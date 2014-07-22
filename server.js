@@ -59,7 +59,7 @@ var replyToMentions = function(){
       var responseMsg = '@' + witResponse.message.user + ":";
       if(witResponse.intent === 'Greeting'){
         console.log('A greeting was found!');
-        responseMsg += '\nHello!!!';
+        responseMsg += '\nHello!';
         twit.updateStatus(responseMsg, function(){
           console.log('a response tweet: ');
           console.log(responseMsg);
@@ -67,7 +67,7 @@ var replyToMentions = function(){
       }
       else if(witResponse.intent === 'Farewell'){
         console.log('A farewell was found!');
-        responseMsg += '\nGoodBYE!!';
+        responseMsg += '\nGoodbye!';
         twit.updateStatus(responseMsg, function(){
           console.log('a response tweet: ');
           console.log(responseMsg);
