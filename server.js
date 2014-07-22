@@ -5,6 +5,7 @@ var port = process.env.PORT || 8300;
 var Firebase = require('firebase');
 var ref = new Firebase('https://nodefybot.firebaseio.com/');
 var wit = require('./wit.js');
+var unirest = require('unirest');
 
 
 //I'm storing sensitive data in a git ignored file called keys. On a server, you can store
@@ -19,6 +20,8 @@ var twit = new twitter({
   access_token_key: process.env.accessTokenKey || keys.accessTokenKey,
   access_token_secret: process.env.accessTokenSecret || keys.accessTokenSecret
 });
+
+
 
 //twitter data
 //latestMentions will be stored in temporary local memory
@@ -75,10 +78,13 @@ var replyToMentions = function(){
       }
       else if(witResponse.intent === 'Joke'){
         console.log('A joke was requested!');
-        responseMsg += '\nJoke: What do you get when you cross a joke and a rhetorical question?';
-        twit.updateStatus(responseMsg, function(){
-          console.log('a response tweet: ');
-          console.log(responseMsg);
+        unirest.get('http://tambal.azurewebsites.net/joke/random', function(data){
+          console.log(data.body);
+          responseMsg += '\n' + data.body.joke;
+          twit.updateStatus(responseMsg, function(){
+            console.log('a response tweet: ');
+            console.log(responseMsg);
+          });
         });
       }
       else if(witResponse.intent === 'rude'){
