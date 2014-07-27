@@ -1,9 +1,10 @@
 var request = require('request');
-// var keys = require('./keys.js');
+var keys = require('./API_KEYS_GIT_IGNORE_THIS.js');
 
 
 var wit = {
   getWitForMessage: function(message, callback) {
+
 
     var url = 'https://api.wit.ai/message?v=20140721&q=' +
               encodeURIComponent(message.text);
@@ -11,7 +12,7 @@ var wit = {
     var options = {
       url: url,
       headers: {
-        'Authorization': process.env.witAuth || keys.witAuth
+        'Authorization': process.env.witAuth || keys.wit.access_token
       }
     };
 

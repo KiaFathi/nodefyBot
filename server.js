@@ -6,21 +6,24 @@ var Firebase = require('firebase');
 var ref = new Firebase('https://nodefybot.firebaseio.com/');
 var wit = require('./wit.js');
 var unirest = require('unirest');
+var events = require('./events.js')
 
 
 //I'm storing sensitive data in a git ignored file called keys. On a server, you can store
 //this data in your process.env
-// var keys = require('./keys.js');
+if(!process.env.PORT){
+  var keys = require('./API_KEYS_GIT_IGNORE_THIS.js');
+}
+
 
 //twitter dependencies
 var twitter = require('twitter');
 var twit = new twitter({
-  consumer_key: process.env.consumerKey || keys.consumerKey,
-  consumer_secret: process.env.consumerSecret || keys.consumerSecret,
-  access_token_key: process.env.accessTokenKey || keys.accessTokenKey,
-  access_token_secret: process.env.accessTokenSecret || keys.accessTokenSecret
+  consumer_key: process.env.consumerKey || keys.twitter.consumer_key,
+  consumer_secret: process.env.consumerSecret || keys.twitter.consumer_secret,
+  access_token_key: process.env.accessTokenKey || keys.twitter.access_token_key,
+  access_token_secret: process.env.accessTokenSecret || keys.twitter.access_token_secret
 });
-
 
 
 //twitter data
@@ -57,7 +60,6 @@ var replyToMentions = function(){
   for(var i = 0; i < latestMentions.length; i++){
     var currentMention = latestMentions.pop();
     //responseMsg is the string we will send to twitter to tweet for us
-    
     wit.getWitForMessage(currentMention, function(witResponse) {
       var responseMsg = '@' + witResponse.message.user + ":";
       if(witResponse.intent === 'Greeting'){
@@ -79,7 +81,6 @@ var replyToMentions = function(){
       else if(witResponse.intent === 'Joke'){
         console.log('A joke was requested!');
         unirest.get('http://tambal.azurewebsites.net/joke/random', function(data){
-          console.log(data.body);
           responseMsg += '\n' + data.body.joke;
           twit.updateStatus(responseMsg, function(){
             console.log('a response tweet: ');
@@ -94,7 +95,10 @@ var replyToMentions = function(){
           console.log('a response tweet: ');
           console.log(responseMsg);
         });
-      } else{
+      } else if (witResponse.intent === 'event'){
+        console.log('You have an event request!');
+
+      } else {
         console.log('Unhandled intent!!!');
         console.log('Unhandled intent!!!');
         console.log('Unhandled intent!!!');
