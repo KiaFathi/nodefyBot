@@ -6,7 +6,10 @@ var Firebase = require('firebase');
 var ref = new Firebase('https://nodefybot.firebaseio.com/');
 var wit = require('./wit.js');
 var unirest = require('unirest');
-var events = require('./events.js')
+var eventsFn = require('./events.js');
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 
 //I'm storing sensitive data in a git ignored file called keys. On a server, you can store
@@ -61,43 +64,51 @@ var replyToMentions = function(){
     var currentMention = latestMentions.pop();
     //responseMsg is the string we will send to twitter to tweet for us
     wit.getWitForMessage(currentMention, function(witResponse) {
+      console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$', witResponse.intent);
       var responseMsg = '@' + witResponse.message.user + ":";
       if(witResponse.intent === 'Greeting'){
         console.log('A greeting was found!');
         responseMsg += '\nHello!';
-        twit.updateStatus(responseMsg, function(){
+        // twit.updateStatus(responseMsg, function(){
           console.log('a response tweet: ');
           console.log(responseMsg);
-        });
+        // });
       }
       else if(witResponse.intent === 'Farewell'){
         console.log('A farewell was found!');
         responseMsg += '\nGoodbye!';
-        twit.updateStatus(responseMsg, function(){
+        // twit.updateStatus(responseMsg, function(){
           console.log('a response tweet: ');
           console.log(responseMsg);
-        });
+        // });
       }
       else if(witResponse.intent === 'Joke'){
         console.log('A joke was requested!');
         unirest.get('http://tambal.azurewebsites.net/joke/random', function(data){
           responseMsg += '\n' + data.body.joke;
-          twit.updateStatus(responseMsg, function(){
+          // twit.updateStatus(responseMsg, function(){
             console.log('a response tweet: ');
             console.log(responseMsg);
-          });
+          // });
         });
       }
       else if(witResponse.intent === 'rude'){
         console.log('Something rude was said!');
         responseMsg += '\nThat was rude! I\'m a PG robot';
-        twit.updateStatus(responseMsg, function(){
+        // twit.updateStatus(responseMsg, function(){
           console.log('a response tweet: ');
           console.log(responseMsg);
-        });
-      } else if (witResponse.intent === 'event'){
+        // });
+      } else if (witResponse.intent === 'Event'){
         console.log('You have an event request!');
-
+        eventsFn.getEventForResponse(function(result){
+          var eventName = result.events[0].name.text;
+          var eventURL = result.events[0].url;
+          responseMsg += '\nHave you thought about ' + eventName + '?\n' + eventURL;
+          // twit.updateStatus(responseMsg, function(){
+            console.log(eventName, eventURL);
+          // });
+        });
       } else {
         console.log('Unhandled intent!!!');
         console.log('Unhandled intent!!!');
@@ -116,6 +127,7 @@ var getMentions = function(){
     if(data.length){
       for(var i = 0; i < data.length; i++){
         var currentTweet = data[i];
+        console.log(currentTweet);
         //This if statement determines whether we have already handled this specific tweet
         if(!idStrings[currentTweet.id_str]){
           idStrings[currentTweet.id_str] = true;
