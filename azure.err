@@ -1,5 +1,10 @@
-Mon Jul 21 2014 16:34:50 GMT-0700 (PDT):
-{ [Error: write EIO] code: 'EIO', errno: 'EIO', syscall: 'write' }
-Error: write EIO
-    at errnoException (net.js:904:11)
-    at Object.afterWrite (net.js:720:19)
+Mon Aug 04 2014 08:52:48 GMT-0700 (PDT):
+{ [Error: Missing character "="]
+  stack: [Getter/Setter],
+  __frame: undefined,
+  rawStack: [Getter] }
+Error: Missing character "="
+    at ConnectionStringParser._parse (/usr/local/lib/node_modules/azure-cli/node_modules/azure-common/lib/services/connectionstringparser.js:86:11)
+    at Object.exports.parse (/usr/local/lib/node_modules/azure-cli/node_modules/azure-common/lib/services/connectionstringparser.js:219:33)
+    at siteAppsettings_addCommand__2 (/usr/local/lib/node_modules/azure-cli/lib/commands/asm/site.appsetting._js:71:41)
+
