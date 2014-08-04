@@ -69,7 +69,7 @@ var replyToMentions = function(){
       if(witResponse.intent === 'Greeting'){
         console.log('A greeting was found!');
         responseMsg += '\nHello!';
-        // twit.updateStatus(responseMsg, function(){
+        twit.updateStatus(responseMsg, function(){
           console.log('a response tweet: ');
           console.log(responseMsg);
         // });
@@ -77,7 +77,7 @@ var replyToMentions = function(){
       else if(witResponse.intent === 'Farewell'){
         console.log('A farewell was found!');
         responseMsg += '\nGoodbye!';
-        // twit.updateStatus(responseMsg, function(){
+        twit.updateStatus(responseMsg, function(){
           console.log('a response tweet: ');
           console.log(responseMsg);
         // });
@@ -86,7 +86,7 @@ var replyToMentions = function(){
         console.log('A joke was requested!');
         unirest.get('http://tambal.azurewebsites.net/joke/random', function(data){
           responseMsg += '\n' + data.body.joke;
-          // twit.updateStatus(responseMsg, function(){
+          twit.updateStatus(responseMsg, function(){
             console.log('a response tweet: ');
             console.log(responseMsg);
           // });
@@ -95,7 +95,7 @@ var replyToMentions = function(){
       else if(witResponse.intent === 'rude'){
         console.log('Something rude was said!');
         responseMsg += '\nThat was rude! I\'m a PG robot';
-        // twit.updateStatus(responseMsg, function(){
+        twit.updateStatus(responseMsg, function(){
           console.log('a response tweet: ');
           console.log(responseMsg);
         // });
@@ -105,7 +105,7 @@ var replyToMentions = function(){
           var eventName = result.events[0].name.text;
           var eventURL = result.events[0].url;
           responseMsg += '\nHave you thought about ' + eventName + '?\n' + eventURL;
-          // twit.updateStatus(responseMsg, function(){
+          twit.updateStatus(responseMsg, function(){
             console.log(eventName, eventURL);
           // });
         });
