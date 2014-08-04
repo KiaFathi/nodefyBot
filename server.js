@@ -1,4 +1,5 @@
 //server related dependencies
+'use strict';
 var express = require('express');
 var app = express();
 var port = process.env.PORT || 8300;
@@ -72,7 +73,7 @@ var replyToMentions = function(){
         twit.updateStatus(responseMsg, function(){
           console.log('a response tweet: ');
           console.log(responseMsg);
-        // });
+        });
       }
       else if(witResponse.intent === 'Farewell'){
         console.log('A farewell was found!');
@@ -80,7 +81,7 @@ var replyToMentions = function(){
         twit.updateStatus(responseMsg, function(){
           console.log('a response tweet: ');
           console.log(responseMsg);
-        // });
+        });
       }
       else if(witResponse.intent === 'Joke'){
         console.log('A joke was requested!');
@@ -89,7 +90,7 @@ var replyToMentions = function(){
           twit.updateStatus(responseMsg, function(){
             console.log('a response tweet: ');
             console.log(responseMsg);
-          // });
+          });
         });
       }
       else if(witResponse.intent === 'rude'){
@@ -98,7 +99,7 @@ var replyToMentions = function(){
         twit.updateStatus(responseMsg, function(){
           console.log('a response tweet: ');
           console.log(responseMsg);
-        // });
+        });
       } else if (witResponse.intent === 'Event'){
         console.log('You have an event request!');
         eventsFn.getEventForResponse(function(result){
@@ -107,7 +108,7 @@ var replyToMentions = function(){
           responseMsg += '\nHave you thought about ' + eventName + '?\n' + eventURL;
           twit.updateStatus(responseMsg, function(){
             console.log(eventName, eventURL);
-          // });
+          });
         });
       } else {
         console.log('Unhandled intent!!!');
