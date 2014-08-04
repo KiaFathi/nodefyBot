@@ -1,5 +1,9 @@
 var request = require('request');
-var keys = require('./API_KEYS_GIT_IGNORE_THIS.js');
+var keys;
+
+if(!process.env.PORT){
+  keys = require('./API_KEYS_GIT_IGNORE_THIS.js');
+} 
 
 
 var wit = {
