@@ -101,15 +101,29 @@ var replyToMentions = function(){
           console.log(responseMsg);
         });
       } else if (witResponse.intent === 'Event'){
-        console.log('You have an event request!');
-        eventsFn.getEventForResponse(function(result){
-          var eventName = result.events[0].name.text;
-          var eventURL = result.events[0].url;
-          responseMsg += '\nHave you thought about ' + eventName + '?\n' + eventURL;
-          twit.updateStatus(responseMsg, function(){
-            console.log(eventName, eventURL);
+        if (!currentMention.location) {
+          console.log('You have an event request!');
+          var responseMsg = '@' + witResponse.message.user + ":";
+          eventsFn.getEventForResponse(undefined, function(result){
+            var eventName = result.events[0].name.text;
+            var eventURL = result.events[0].url;
+            responseMsg += '\nI\'m not sure where you are, so have you thought about ' + eventName + ', which is in San Francisco?\n' + eventURL;
+            twit.updateStatus(responseMsg, function(){
+              console.log(eventName, eventURL);
+            });
           });
-        });
+        } else {
+          console.log('You have an event request!');
+          var responseMsg = '@' + witResponse.message.user + ":";
+          eventsFn.getEventForResponse(currentMention.location, function(result){
+            var eventName = result.events[0].name.text;
+            var eventURL = result.events[0].url;
+            responseMsg += '\nHave you thought about ' + eventName + '?\n' + eventURL;
+            twit.updateStatus(responseMsg, function(){
+              console.log(eventName, eventURL);
+            });
+          });
+        }
       } else {
         console.log('Unhandled intent!!!');
         console.log('Unhandled intent!!!');
@@ -128,7 +142,7 @@ var getMentions = function(){
     if(data.length){
       for(var i = 0; i < data.length; i++){
         var currentTweet = data[i];
-        console.log(currentTweet);
+        console.log('CURRENT TWEET', currentTweet);
         //This if statement determines whether we have already handled this specific tweet
         if(!idStrings[currentTweet.id_str]){
           idStrings[currentTweet.id_str] = true;
@@ -136,6 +150,7 @@ var getMentions = function(){
           var tweetObj = {};
           tweetObj.user =  currentTweet.user.screen_name;
           tweetObj.text = currentTweet.text;
+          tweetObj.location = currentTweet.user.location
           latestMentions.push(tweetObj);
         }
       }      
@@ -144,13 +159,11 @@ var getMentions = function(){
       ref.update(idStrings);
     } else{
       //This will occur if there is no data, or twitter responds with an error
-      console.log(data);
+      console.log('DATA', data);
     }
     //These console logs are mostly just for debugging.
-    console.log('Current ID Strings:');
-    console.log(idStrings);
-    console.log('Latest Mentions:');
-    console.log(latestMentions);
+    console.log('Current ID Strings:', idStrings);
+    console.log('Latest Mentions:', latestMentions);
   });
 };
 
